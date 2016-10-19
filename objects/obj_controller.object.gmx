@@ -34,6 +34,14 @@ menu[0] = "Start";
 menu[1] = "How to Play";
 menu_position = 0;
 text_spacing = 32;
+music[0] = mus_mercury;
+music[1] = mus_venus;
+music[2] = mus_frantic;
+musicChosen = false;
+xRect = 0;
+yRect = 0;
+nextScreen = false;
+
 </string>
           </argument>
         </arguments>
@@ -57,6 +65,29 @@ text_spacing = 32;
           <argument>
             <kind>1</kind>
             <string>game_restart();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.game = states.levelInit;
 </string>
           </argument>
         </arguments>
@@ -87,7 +118,14 @@ if (keyboard_check_pressed(vk_f2)) {
     global.game = states.gameMenu;
     scr_gameMenu();
     };
+
 if (global.game = states.play) {
+    //Music Playing
+    var current_track = irandom(array_length_1d(music)-1);
+    if (!musicChosen) {
+        scr_jukebox(current_track);
+        };
+    //Dying
     if (lives &lt;= 0){
         global.game = states.gameOver;
         scr_gameEnd();
@@ -97,6 +135,10 @@ if (global.game = states.play) {
 audio_master_gain(volume);
 
 if (global.game == states.gameMenu) {
+    if(!audio_is_playing(mus_mainMenu)) {
+        current_track = mus_mainMenu;
+        audio_play_sound(current_track, 1, 1);
+        };
     var move = 0;
     move -= max(keyboard_check_pressed(vk_left), gamepad_button_check(0, gp_padl), 0);
     move += max(keyboard_check_pressed(vk_right), gamepad_button_check(0, gp_padr), 0);
@@ -111,12 +153,26 @@ if (global.game == states.gameMenu) {
             };
         }
     var confirm;
-    confirm = max(keyboard_check_released(vk_space), gamepad_button_check_released(0, gp_face1),0);
+    confirm = max(keyboard_check_released(vk_enter), gamepad_button_check_released(0, gp_face1),0);
     
     if (confirm == 1) {
         scr_confirm(menu_position);
         };
     };
+if (global.game == states.levelSummary) {
+    if (xRect &lt;= 1024) {
+        xRect += 30;
+        };
+    if (yRect &lt;= 768) {
+        yRect += 30;
+    };
+    instance_deactivate_all(true);
+    nextScreen = max(keyboard_check_pressed(vk_enter), gamepad_button_check_pressed(0, gp_face1));
+    if (nextScreen == 1) {
+        instance_activate_all();
+        global.game = states.levelInit;
+    };
+};
 </string>
           </argument>
         </arguments>
@@ -139,17 +195,39 @@ if (global.game == states.gameMenu) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if global.game == states.play{
+            <string>var ww = 1024;
+var wh = 768;
+//Notify player of how many asteroids are left before next level
+if global.game == states.play{
+    var asteroidCount = instance_number(obj_asteroid_s);
     draw_set_font(font0);
-    draw_text(10, 10, 'Score: ' + string(score));
-    draw_sprite_ext(spr_player, image_index, view_hport[0] - 40, 30, 0.5, 0.5, 0, c_white, 1);
-    draw_text(view_hport[0] - 20, 10, 'x' + string(lives));
+    draw_text(10, 10, '$' + string(score));
+    draw_sprite_ext(spr_player, image_index, ww - 150, 30, 0.5, 0.5, 0, c_white, 1);
+    draw_text(ww - 100, 10, 'x' + string(lives));
+     if (!instance_exists(obj_asteroid_l) &amp;&amp; !instance_exists(obj_asteroid_m)){   
+        if (asteroidCount &lt;= 3) {
+        draw_text(ww - 500, 700, "Asteroids Left: " + string(asteroidCount));
+            };
+        };
     };
 
+if (global.game == states.levelSummary) {
+    draw_set_font(font1);
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, xRect, yRect, 0);
+    draw_set_color(c_white);
+    draw_text(ww / 4, 100, "Day " + string(global.currentLevel) + " Summary");
+    draw_text(ww / 3, 200, "$ " + string(score));
+    draw_set_font(font0);
+    draw_text(ww / 4, wh - 400, "Press enter for Day " + string(global.currentLevel + 1));
+    draw_set_color(c_black);
+    };  
+    
 if (global.game == states.gameOver){
     draw_set_font(font1);
-    draw_text(view_hport[0] / 2, view_yport[0] / 2, "Game Over");
-    draw_text(view_hport[0] / 2, view_yport[0] + 250, "Score: " + string(score));
+    draw_text(ww / 4, wh - 600, "Game Over");
+    draw_text(ww / 5, wh - 500, "You Survived: " + string(global.currentLevel) + " Days");
+    draw_text(ww / 4, wh - 400, "and made: $ " + string(score));
     };
 
 if (global.game == states.gameMenu){
@@ -160,23 +238,27 @@ if (global.game == states.gameMenu){
     draw_set_color(c_black);
     draw_text(x + 10, y + 10, "W.B. Spaceman");
     draw_sprite(spr_wb, image_index, 800, 540);
+    draw_set_font(font0);
+    draw_text(ww / 6, wh - 100, "Press Enter to Select");
     //Draw Menu
     draw_set_font(font0);
     draw_set_color(c_gray);
-    for (i = 0; i &lt;= array_length_1d(menu) - 1; i++) {
-        draw_text(string_length(menu[i]) * text_spacing, 600 + text_spacing, menu[i]);
+        for (i = 0; i &lt;= array_length_1d(menu) - 1; i++) {
+        draw_text(string_length(menu[i]) * text_spacing, 500 + text_spacing, menu[i]);
         };
       if (menu_position == 0) {
         draw_set_color(c_black);
-        draw_text(string_length(menu[0]) * text_spacing - 5, 600 + text_spacing, menu[0]);
+        draw_text(string_length(menu[0]) * text_spacing + 3, 500 + text_spacing, menu[0]);
     };
     if (menu_position == 1) {
         draw_set_color(c_black);
-        draw_text(string_length(menu[1]) * text_spacing - 5, 600 + text_spacing, menu[1]);
+        draw_text(string_length(menu[1]) * text_spacing + 3, 500 + text_spacing, menu[1]);
     };
 };
   
-
+if (global.game == states.howToPlay) {
+    scr_howToPlay();
+    };
 </string>
           </argument>
         </arguments>

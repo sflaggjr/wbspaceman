@@ -14,17 +14,22 @@
     <sound>sound\snd_dropoff</sound>
     <sound>sound\snd_pickup</sound>
     <sound>sound\snd_full</sound>
+    <sound>sound\mus_mainMenu</sound>
+    <sound>sound\mus_mercury</sound>
+    <sound>sound\mus_venus</sound>
+    <sound>sound\mus_frantic</sound>
+    <sound>sound\mus_intro</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\spr_player</sprite>
     <sprite>sprites\spr_pshot</sprite>
     <sprite>sprites\spr_asteroid</sprite>
     <sprite>sprites\spr_spacestation</sprite>
-    <sprite>sprites\spr_box</sprite>
     <sprite>sprites\spr_pen</sprite>
     <sprites name="menu sprites">
       <sprite>sprites\spr_wb</sprite>
     </sprites>
+    <sprite>sprites\spr_logo</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bk_playfield</background>
@@ -45,6 +50,8 @@
       <script>scripts\scr_createLevel.gml</script>
       <script>scripts\scr_gameMenu.gml</script>
       <script>scripts\scr_confirm.gml</script>
+      <script>scripts\scr_howToPlay.gml</script>
+      <script>scripts\scr_jukebox.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -61,21 +68,21 @@
     </objects>
     <objects name="Controller Objects">
       <object>objects\obj_controller</object>
-      <object>objects\obj_levelSpawner</object>
+      <object>objects\obj_splash</object>
     </objects>
     <objects name="Player Objects">
       <object>objects\obj_pshot</object>
       <object>objects\obj_player</object>
-      <object>objects\obj_pens</object>
     </objects>
     <objects name="Level Objects">
+      <object>objects\obj_levelSpawner</object>
       <object>objects\obj_spacestation</object>
-      <object>objects\obj_boxes</object>
+      <object>objects\obj_pens</object>
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\splash</room>
     <room>rooms\game_room</room>
-    <room>rooms\game_menu</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

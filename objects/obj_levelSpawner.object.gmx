@@ -26,10 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>//Populate Levels
-asteroids = 4;
+asteroids = 1;
 boxes = 3;
 aliens = 0;
-currentLevel = 1;
+global.currentLevel = 0;
 </string>
           </argument>
         </arguments>
@@ -53,14 +53,14 @@ currentLevel = 1;
           <argument>
             <kind>1</kind>
             <string>if (global.game == states.play){
-    if (!instance_exists(obj_boxes)) &amp;&amp; obj_player.cargo = false{
-        global.game = states.levelInit;
-        currentLevel++
+    if (!instance_exists(obj_asteroid)) &amp;&amp; obj_player.cargo = false{
+        global.game = states.levelSummary;
+        global.currentLevel++
         };
     };
     
 if (global.game = states.levelInit){
-scr_createLevel(currentLevel, asteroids, boxes, aliens);
+    scr_createLevel(global.currentLevel, asteroids, boxes, aliens);
 };
 </string>
           </argument>

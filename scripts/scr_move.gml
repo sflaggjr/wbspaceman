@@ -15,11 +15,13 @@ var gp_right = gamepad_button_check(0, gp_padr);
 if (key_up == true || gp_up == true){
     if speed != argument0 {
         obj_player.speed += 1;
+        obj_player.invul = false;
         };
     };
 if (key_down == true || gp_down == true){
     if speed != -argument0 {
         obj_player.speed -= 1;
+        obj_player.invul = false;
         };
     };
 if (key_right == true || gp_right == true){

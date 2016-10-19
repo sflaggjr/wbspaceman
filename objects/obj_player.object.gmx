@@ -36,6 +36,7 @@ lives = 3;
 respawnTime = 60;
 state = states.play;
 cargo = false;
+invul = true;
 
 
 </string>
@@ -62,13 +63,18 @@ cargo = false;
             <kind>1</kind>
             <string>x = xstart;
 y = ystart;
+invul = true;
 
-if place_empty(xstart, ystart) {
+if (!place_meeting(xstart, ystart, obj_asteroid)) {
         audio_play_sound(snd_respawn, 4, false);
+        cargo = 0;
         state = states.play;
         };
  else {
     scr_respawnPlayer(respawnTime);
+    }
+with (obj_pens) {
+    instance_destroy();
     }
     
 </string>
@@ -117,13 +123,19 @@ canShoot = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if state = states.play {
+            <string>if (state == states.play) {
     scr_move(maxSpd, rotationSpd);
     scr_pCollision();
     if (canShoot = true) {
         scr_shoot();
-    }
-}
+    };
+};
+if (global.game == states.levelInit) {
+    x = xstart;
+    y = ystart;
+    speed = 0;
+    direction = 0;
+    };  
 
 </string>
           </argument>

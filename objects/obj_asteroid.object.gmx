@@ -85,6 +85,9 @@ if (asteroidSize == "obj_asteroid_l") {
         instance_create(x, y, obj_asteroid_m);
         instance_destroy();
         }
+    for (i = 0; i &lt;= 3; i++) {
+        instance_create(x, y, obj_pens);
+        };
     }
 else if (asteroidSize == "obj_asteroid_m") {
     score += 15;
@@ -93,6 +96,9 @@ else if (asteroidSize == "obj_asteroid_m") {
         instance_create(x, y, obj_asteroid_s);
         instance_destroy();
         }
+    for (i = 0; i &lt;= 1; i++) {
+        instance_create(x, y, obj_pens);
+        };
     }
 else {
     score += 20
