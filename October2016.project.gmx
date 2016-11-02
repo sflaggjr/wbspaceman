@@ -19,6 +19,7 @@
     <sound>sound\mus_venus</sound>
     <sound>sound\mus_frantic</sound>
     <sound>sound\mus_intro</sound>
+    <sound>sound\mus_newtime</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\spr_player</sprite>
@@ -52,6 +53,7 @@
       <script>scripts\scr_confirm.gml</script>
       <script>scripts\scr_howToPlay.gml</script>
       <script>scripts\scr_jukebox.gml</script>
+      <script>scripts\scr_shuffleJukebox.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -81,8 +83,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\splash</room>
     <room>rooms\game_room</room>
+    <room>rooms\splash</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

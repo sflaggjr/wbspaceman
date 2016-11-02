@@ -32,15 +32,13 @@ volume = 0.5;
 view_object[0] = obj_player;
 menu[0] = "Start";
 menu[1] = "How to Play";
+menu[2] = "Quit";
 menu_position = 0;
-text_spacing = 32;
-music[0] = mus_mercury;
-music[1] = mus_venus;
-music[2] = mus_frantic;
-musicChosen = false;
+text_spacing = 2;
 xRect = 0;
 yRect = 0;
 nextScreen = false;
+paused = false;
 
 </string>
           </argument>
@@ -120,11 +118,6 @@ if (keyboard_check_pressed(vk_f2)) {
     };
 
 if (global.game = states.play) {
-    //Music Playing
-    var current_track = irandom(array_length_1d(music)-1);
-    if (!musicChosen) {
-        scr_jukebox(current_track);
-        };
     //Dying
     if (lives &lt;= 0){
         global.game = states.gameOver;
@@ -173,6 +166,18 @@ if (global.game == states.levelSummary) {
         global.game = states.levelInit;
     };
 };
+
+if (keyboard_check_pressed(vk_escape)) {
+    if (global.game == states.play) {
+        global.game = states.pause;
+        instance_deactivate_all(true)
+        };
+    else {
+        global.game = states.play;
+        instance_activate_all();
+        };
+    };
+        
 </string>
           </argument>
         </arguments>
@@ -225,9 +230,9 @@ if (global.game == states.levelSummary) {
     
 if (global.game == states.gameOver){
     draw_set_font(font1);
-    draw_text(ww / 4, wh - 600, "Game Over");
+    draw_text(ww / 5, wh - 600, "Game Over");
     draw_text(ww / 5, wh - 500, "You Survived: " + string(global.currentLevel) + " Days");
-    draw_text(ww / 4, wh - 400, "and made: $ " + string(score));
+    draw_text(ww / 5, wh - 400, "and made: $ " + string(score));
     };
 
 if (global.game == states.gameMenu){
@@ -242,22 +247,34 @@ if (global.game == states.gameMenu){
     draw_text(ww / 6, wh - 100, "Press Enter to Select");
     //Draw Menu
     draw_set_font(font0);
-    draw_set_color(c_gray);
+    /*draw_set_color(c_gray);
         for (i = 0; i &lt;= array_length_1d(menu) - 1; i++) {
-        draw_text(string_length(menu[i]) * text_spacing, 500 + text_spacing, menu[i]);
-        };
-      if (menu_position == 0) {
+        draw_text(10 + string_length(menu[i]), 500 * text_spacing, menu[i]);
+        };*/
+    if (menu_position == 0) {
+        draw_set_color(c_gray);
+        draw_text(string_length(menu[0]) * text_spacing + 5, (text_spacing * 2) + 500, menu[menu_position + 1]);
         draw_set_color(c_black);
-        draw_text(string_length(menu[0]) * text_spacing + 3, 500 + text_spacing, menu[0]);
+        draw_text(string_length(menu[0]) * text_spacing, 500 + text_spacing, menu[0]);
     };
     if (menu_position == 1) {
         draw_set_color(c_black);
-        draw_text(string_length(menu[1]) * text_spacing + 3, 500 + text_spacing, menu[1]);
+        draw_text(string_length(menu[1]) * text_spacing + 5, 500 + text_spacing, menu[1]);
     };
+    if (menu_position == 2) {
+        draw_set_color(c_black);
+        draw_text(string_length(menu[2]) * text_spacing + 5, 500 + text_spacing, menu[2]);
+        };
 };
   
 if (global.game == states.howToPlay) {
     scr_howToPlay();
+    };
+
+if (global.game == states.pause) {
+    draw_set_font(font2);
+    draw_set_color(c_black);
+    draw_text(window_get_width() - 700, window_get_height() - 400, "PAUSED");
     };
 </string>
           </argument>

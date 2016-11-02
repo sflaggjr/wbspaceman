@@ -5,3 +5,6 @@ if (argument0 == 0) {
 else if (argument0 == 1) {
     scr_howToPlay();
     };
+else if (argument0 == 2) {
+    game_end();
+    };

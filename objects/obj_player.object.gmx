@@ -126,7 +126,7 @@ canShoot = true;
             <string>if (state == states.play) {
     scr_move(maxSpd, rotationSpd);
     scr_pCollision();
-    if (canShoot = true) {
+    if (canShoot == true) {
         scr_shoot();
     };
 };
@@ -187,6 +187,10 @@ if (global.game == states.levelInit) {
 else {
     draw_sprite_ext(spr_player, image_index, x, y, 1, 1, direction - rotationOffset, c_white, 1);
 };
+
+
+
+
 </string>
           </argument>
         </arguments>

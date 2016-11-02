@@ -27,8 +27,10 @@ else {
 
 if (cargo){
     if (place_meeting(x, y, obj_spacestation)){
-        cargo = false;
+        for (i = 0; i < cargo; i++) {
+            score += 25;
+            };
+        cargo = 0;
         audio_play_sound(snd_dropoff, 1, 0);
-        score += 25;
         };
     };

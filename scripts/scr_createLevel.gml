@@ -20,5 +20,8 @@ for (i = 0; i <= spawnAsteroids + level; i++) {
         instance_create(random(room_width), random(room_height), obj_asteroid_l);
 };
 
+with (obj_pens) {
+    instance_destroy();
+};
 global.game = states.play;
 

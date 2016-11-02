@@ -30,6 +30,11 @@ asteroids = 1;
 boxes = 3;
 aliens = 0;
 global.currentLevel = 0;
+music[0] = mus_mercury;
+music[1] = mus_venus;
+music[2] = mus_frantic;
+music[3] = mus_newtime;
+musicChosen = false;
 </string>
           </argument>
         </arguments>
@@ -61,6 +66,9 @@ global.currentLevel = 0;
     
 if (global.game = states.levelInit){
     scr_createLevel(global.currentLevel, asteroids, boxes, aliens);
+    //Music Playing
+    var current_track = scr_shuffleJukebox();
+    scr_jukebox(current_track);
 };
 </string>
           </argument>

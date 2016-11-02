@@ -79,7 +79,6 @@ pieces = 3;
             <string>var asteroidSize = object_get_name(object_index);
 
 if (asteroidSize == "obj_asteroid_l") {
-    score += 10;
     audio_play_sound(snd_asteroidL, 1, false);
     for (i = 0; i &lt;= pieces; i++){
         instance_create(x, y, obj_asteroid_m);
@@ -90,7 +89,6 @@ if (asteroidSize == "obj_asteroid_l") {
         };
     }
 else if (asteroidSize == "obj_asteroid_m") {
-    score += 15;
     audio_play_sound(snd_asteroidM, 1, false);
     for (i = 0; i &lt;= pieces; i++){
         instance_create(x, y, obj_asteroid_s);
@@ -101,7 +99,6 @@ else if (asteroidSize == "obj_asteroid_m") {
         };
     }
 else {
-    score += 20
     audio_play_sound(snd_asteroidS, 1, false);
     instance_destroy();
     };
@@ -174,6 +171,23 @@ scr_scaleAsteroid(asteroidSize);
           <argument>
             <kind>1</kind>
             <string>draw_self();
+var view_width = 1024;
+var view_height = 768;
+if (x &lt; view_xview[0]) {
+    draw_triangle(view_xview[0], view_yview[0] + 400, view_xview[0] + 50, view_yview[0] + 350, view_xview[0] + 50, view_yview[0] + 450, true);
+    };
+else if (x &gt; view_xview[0] + view_width) {
+    draw_triangle(view_xview[0] + view_width, view_yview[0] + 400, (view_xview[0] + view_width) - 50, view_yview[0] + 350, (view_xview[0] + view_width) - 50, view_yview[0] + 450, true);
+    };
+else if (y &lt; view_yview[0]) {
+    draw_triangle(view_xview[0] + 500, view_yview[0], view_xview[0] + 450, view_yview[0] + 50, view_xview[0] + 550, view_yview[0] + 50, true);
+    };
+else if (y &gt; view_yview[0] + view_height) {
+    draw_triangle(view_xview[0] + 500, view_yview[0] + view_height, view_xview[0] + 450, (view_yview[0] + view_height) - 50, view_xview[0] + 550, (view_yview[0] + view_height) - 50, true);
+};
+
+
+
 </string>
           </argument>
         </arguments>
